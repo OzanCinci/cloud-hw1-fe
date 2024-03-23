@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter,HashRouter, Route, Routes} from 'react-router-dom'
+import HomePage from './Pages/HomePage';
+import Navbar from './Components/Navbar';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Welcome to Ceng495 HW1 Website
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <BrowserRouter>
+          <Navbar/>
+        
+          <Routes>
+            <Route exact path='/:category' element={<HomePage/>}/>
+
+          </Routes>
+        </BrowserRouter>
       </div>
     );
   }
