@@ -6,7 +6,12 @@ import PersonIcon from '@mui/icons-material/Person';
 
 const Container = styled.div`
     width: 100%;
-    border: 1px solid red;
+    -webkit-box-shadow: -1px -1px 58px -4px rgba(0,0,0,0.25);
+    -moz-box-shadow: -1px -1px 58px -4px rgba(0,0,0,0.25);
+    box-shadow: -1px -1px 58px -4px rgba(0,0,0,0.25);
+    margin-bottom: 40px;
+    padding-bottom: 5px;
+    padding-top: 5px;
 `;
 
 const LogoImg = styled.img`
