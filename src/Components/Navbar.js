@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from '../images/logo.png';
 import { useLocation, useNavigate } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Container = styled.div`
     width: 100%;
@@ -19,6 +20,8 @@ const Wrapper = styled.div`
     direction: row;
     justify-content: space-around;
     align-items: center;
+    max-width: 1500px;
+    margin: auto;
 `;
 
 const Links = styled.div`
@@ -61,6 +64,18 @@ const Link = styled.div`
     }
 `;
 
+const LinkWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 35%;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const CustomizedPersonIcon = styled(PersonIcon)`
+    cursor: pointer;
+`;
+
 
 function Navbar() {
     const nav = useNavigate();
@@ -78,12 +93,15 @@ function Navbar() {
     <Container>
         <Wrapper>
             <LogoImg src={Logo} alt='logo-of-cengten'/>
-            <Links>
-                <Link selected={selected==='computers'} onClick={()=>handleRedirection('computers')}>Computers</Link>
-                <Link selected={selected==='vehicles'} onClick={()=>handleRedirection('vehicles')}>Vehicles</Link>
-                <Link selected={selected==='phones'} onClick={()=>handleRedirection('phones')}>Phones</Link>
-                <Link selected={selected==='private-lessons'} onClick={()=>handleRedirection('private-lessons')}>Private Lessons</Link>
-            </Links>
+            <LinkWrapper>
+                <Links>
+                    <Link selected={selected==='computers'} onClick={()=>handleRedirection('computers')}>Computers</Link>
+                    <Link selected={selected==='vehicles'} onClick={()=>handleRedirection('vehicles')}>Vehicles</Link>
+                    <Link selected={selected==='phones'} onClick={()=>handleRedirection('phones')}>Phones</Link>
+                    <Link selected={selected==='private-lessons'} onClick={()=>handleRedirection('private-lessons')}>Private Lessons</Link>
+                </Links>
+                <CustomizedPersonIcon onClick={()=>handleRedirection('account')} style={{ color: selected==='account'? '#17A2B8' : 'black' }} fontSize='large'/>
+            </LinkWrapper>
         </Wrapper>
     </Container>
   )
