@@ -1,6 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Computers from './Computers';
+import Vehicles from './Vehicles';
+import Phones from './Phones';
+import PrivateLessons from './PrivateLessons';
 
 
 function getPage(category) {
@@ -9,11 +12,11 @@ function getPage(category) {
         case "computers":
             return <Computers/>;
         case "vehicles":
-            return;
+            return <Vehicles/>;
         case "phones":
-            return;
+            return <Phones/>; 
         case "private-lessons":
-            return;
+            return <PrivateLessons/>;
         default:
             return <Computers/>;
     }
@@ -27,7 +30,6 @@ function HomePage() {
         {
             getPage(category)
         }
-        {`current category: ${category}`}
     </>
   )
 }

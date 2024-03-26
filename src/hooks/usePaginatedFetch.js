@@ -23,11 +23,8 @@ const usePaginatedFetch = (url, _config, pageNumber, BASE_URL) => {
             }
             let req = {...config};
             req.url = req_url;
-            //console.log("req.url: ",req.url);
-
             setError(null);
             setLoading(true);
-            //console.log("FIRLATACAK!", req);
             axios.request(req, { signal: abortController.signal })
             .then(res => {
                 if (res.status !== 200) {
@@ -56,7 +53,6 @@ const usePaginatedFetch = (url, _config, pageNumber, BASE_URL) => {
         }
 
         if (url!==null && config!==null) {
-            console.log("içine girdi");
             fetchData();
         } 
 

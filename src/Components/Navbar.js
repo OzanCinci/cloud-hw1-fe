@@ -12,6 +12,7 @@ const Container = styled.div`
     margin-bottom: 40px;
     padding-bottom: 5px;
     padding-top: 5px;
+    background: white;
 `;
 
 const LogoImg = styled.img`
@@ -97,7 +98,9 @@ function Navbar() {
   return (
     <Container>
         <Wrapper>
-            <LogoImg src={Logo} alt='logo-of-cengten'/>
+            <div onClick={()=>nav("/")} style={{cursor:"pointer"}}>
+                <LogoImg src={Logo} alt='logo-of-cengten'/>
+            </div>
             <LinkWrapper>
                 <Links>
                     <Link selected={selected==='computers'} onClick={()=>handleRedirection('computers')}>Computers</Link>
