@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { readFromLocalStorage } from '../utils/account';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const ModifiedAlert = styled(Alert)`
   width: 35%;
@@ -59,6 +60,7 @@ const PaginationDiv = styled.div`
 `;
 
 function Vehicles() {
+    const nav = useNavigate();
     const [auth,setAuth] = useState(false);
     const [selectedItem,setSelectedItem] = useState({"test":12});
     const [user,setUser ] = useState(null);
@@ -70,7 +72,7 @@ function Vehicles() {
             'Content-Type': 'application/json',
             }
       });
-    const {data, loading, error} = usePaginatedFetch(url,config,pageNumber, "http://localhost:3001");
+    const {data, loading, error} = usePaginatedFetch(url,config,pageNumber, "https://cloud-hw1-be.onrender.com");
       console.log("COMPUTERS DATA: ", data);
 
 
@@ -93,9 +95,9 @@ function Vehicles() {
 
         console.log(user)
         console.log(req);
-        console.log('http://localhost:3001/vehicles/' + itemId);
+        console.log('https://cloud-hw1-be.onrender.com/vehicles/' + itemId);
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/vehicles/' + itemId, {
+        fetch('https://cloud-hw1-be.onrender.com/vehicles/' + itemId, {
             method: 'DELETE', 
             headers: {
             'Content-Type': 'application/json',
@@ -127,6 +129,51 @@ function Vehicles() {
         setUser(user);
     },[]);
 
+    const writeToLocalStorage = (key, value) => {
+        localStorage.setItem(key, JSON.stringify(value));
+    };
+
+    const handleUpdate = (selectedItem) => {
+        writeToLocalStorage("updateData",selectedItem);
+        nav("/update/vehicles/" + selectedItem._id);
+        const btn = document.getElementById("close-button-vehicle");
+        if (btn)
+            btn.click();
+    }
+
+    const renderFields = (item, parentKey = '') => {    
+        if (item && typeof item === 'object' && !Array.isArray(item)) {
+          return Object.keys(item).map((key) => renderFields(item[key], `${parentKey}${key}.`));
+        } else {
+          // Remove the trailing dot from the parentKey
+          const cleanKey = parentKey.endsWith('.') ? parentKey.slice(0, -1) : parentKey;
+          return (
+            <InputField
+              key={cleanKey}
+              label={cleanKey}
+              value={item}
+            />
+          );
+        }
+      };
+
+      const InputField = ({ label, value }) => {
+        if (label.includes("userContact") || label.includes("_id") || label.includes("__v")) {
+            return (<div></div>);
+        } else {
+          return ( // Move the opening parenthesis up to this line
+            <div>
+              <label>{label}:</label>
+              <input
+                readOnly={true}
+                type="text"
+                value={value}
+              />
+            </div>
+          );
+        }
+      };
+      
   return (
     <div>
         <button style={{display: "none"}} id='vehicle-detail' type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -148,18 +195,13 @@ function Vehicles() {
                                     (user?.role==="ADMIN" || user?._id==selectedItem.userId) && <div> <Button style={{marginBottom:"30px"}} onClick={(e)=> handleDelete(e,selectedItem._id)} size='large' variant="outlined">Delete</Button> </div>
                                 }
                             </div>
+                            <div>
+                                {
+                                    (user?.email==selectedItem?.userContact?.email) && <div> <Button style={{marginBottom:"30px"}} onClick={(e)=> handleUpdate(selectedItem)} size='large' variant="outlined">Update</Button> </div>
+                                }
+                            </div>
                             {selectedItem.image && <CustomImage src={selectedItem.image} alt='item-image'/>}
-                            {selectedItem.title && <div>Title: {selectedItem?.title}</div>}
-                            {selectedItem.brand && <div>Brand: {selectedItem?.brand}</div>}
-                            {selectedItem.model && <div>Model: {selectedItem?.model}</div>}
-                            {selectedItem.price && <div>Price: ${selectedItem?.price}</div>}
-                            {selectedItem.year && <div>Year: {selectedItem?.year} </div>}
-                            {selectedItem.color && <div>color: {selectedItem?.color}</div>}
-                            {selectedItem.engineDisplacement && <div>engineDisplacement: {selectedItem?.engineDisplacement}</div>}
-                            {selectedItem.fuelType && <div>fuelType: {selectedItem?.fuelType}</div>}
-                            {selectedItem.transmissionType && <div>transmissionType: {selectedItem?.transmissionType}</div>}
-                            {selectedItem.mileage && selectedItem.mileage && <div>mileage: {selectedItem.mileage} </div>}
-                            {selectedItem.description && <div>Description: {selectedItem?.description}</div>}
+                            {renderFields(selectedItem)}
                             {selectedItem.userContact && <div>Seller: {selectedItem.userContact?.name} {selectedItem.userContact?.surname}</div> }
                             {selectedItem?.userContact?.email && (auth || selectedItem.showDetailToEveryOne) && <div>Email: {selectedItem.userContact?.email}</div> }
                             {selectedItem?.userContact?.phoneNumber && (auth || selectedItem.showDetailToEveryOne) && <div>Phone Number: {selectedItem.userContact?.phoneNumber}</div>}

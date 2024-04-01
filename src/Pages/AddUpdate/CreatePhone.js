@@ -107,7 +107,7 @@ function CreatePhone() {
                 return acc;
         }, {});
         }
-    
+        phoneData.userId = user._id;
 
         const req = {
             phoneData: {...phoneData},
@@ -118,7 +118,7 @@ function CreatePhone() {
         };
 
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/phones', {
+        fetch('https://cloud-hw1-be.onrender.com/phones', {
             method: 'POST', 
             headers: {
             'Content-Type': 'application/json',

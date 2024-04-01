@@ -72,7 +72,7 @@ function Computers() {
             }
       });
     const nav = useNavigate();
-    const {data, loading, error} = usePaginatedFetch(url,config,pageNumber, "http://localhost:3001");
+    const {data, loading, error} = usePaginatedFetch(url,config,pageNumber, "https://cloud-hw1-be.onrender.com");
       console.log("COMPUTERS DATA: ", data);
 
 
@@ -95,9 +95,9 @@ function Computers() {
 
         console.log(user)
         console.log(req);
-        console.log('http://localhost:3001/computers/' + itemId);
+        console.log('https://cloud-hw1-be.onrender.com/computers/' + itemId);
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/computers/' + itemId, {
+        fetch('https://cloud-hw1-be.onrender.com/computers/' + itemId, {
             method: 'DELETE', 
             headers: {
             'Content-Type': 'application/json',
@@ -128,6 +128,7 @@ function Computers() {
             return;
         setAuth(true);
         setUser(user);
+        console.log("USER: ",user);
     },[]);
 
     const writeToLocalStorage = (key, value) => {
@@ -137,7 +138,44 @@ function Computers() {
     const handleUpdate = (selectedItem) => {
         writeToLocalStorage("updateData",selectedItem);
         nav("/update/computers/" + selectedItem._id);
+        const btn = document.getElementById("close-button-computer");
+        if (btn)
+            btn.click();
     }
+
+    const renderFields = (item, parentKey = '') => {    
+        if (item && typeof item === 'object' && !Array.isArray(item)) {
+          return Object.keys(item).map((key) => renderFields(item[key], `${parentKey}${key}.`));
+        } else {
+          // Remove the trailing dot from the parentKey
+          const cleanKey = parentKey.endsWith('.') ? parentKey.slice(0, -1) : parentKey;
+          return (
+            <InputField
+              key={cleanKey}
+              label={cleanKey}
+              value={item}
+            />
+          );
+        }
+      };
+
+      const InputField = ({ label, value }) => {
+        if (label.includes("userContact") || label.includes("_id") || label.includes("__v")) {
+            return (<div></div>);
+        } else {
+          return ( // Move the opening parenthesis up to this line
+            <div>
+              <label>{label}:</label>
+              <input
+                readOnly={true}
+                type="text"
+                value={value}
+              />
+            </div>
+          );
+        }
+      };
+      
 
   return (
     <div>
@@ -166,21 +204,8 @@ function Computers() {
                                 }
                             </div>
                             {selectedItem.image && <CustomImage src={selectedItem.image} alt='item-image'/>}
-                            {selectedItem.title && <div>Title: {selectedItem?.title}</div>}
-                            {selectedItem.brand && <div>Brand: {selectedItem?.brand}</div>}
-                            {selectedItem.description && <div>Description: {selectedItem?.description}</div>}
-                            {selectedItem.graphicsCard && <div>Graphics card: {selectedItem?.graphicsCard}</div>}
-                            {selectedItem.model && <div>Model: {selectedItem?.model}</div>}
-                            {selectedItem.operatingSystem && <div>OS: {selectedItem?.operatingSystem}</div>}
-                            {selectedItem.price && <div>Price: ${selectedItem?.price}</div>}
-                            {selectedItem.processor && <div>Processor: {selectedItem?.processor}</div>}
-                            {selectedItem.ram && <div>RAM: {selectedItem?.ram} (GB)</div>}
-                            {selectedItem.type && <div>Type: {selectedItem?.type} </div>}
-                            {selectedItem.year && <div>Year: {selectedItem?.year} </div>}
-                            {selectedItem.storage && selectedItem.storage?.ssd && <div>SSD: {selectedItem.storage?.ssd} </div>}
-                            {selectedItem.storage && selectedItem.storage?.hdd && <div>HDD: {selectedItem.storage?.hdd} </div>}
+                            {renderFields(selectedItem)}
                             {selectedItem.userContact && <div>Seller: {selectedItem.userContact?.name} {selectedItem.userContact?.surname}</div> }
-
                             {selectedItem?.userContact?.email && (auth || selectedItem.showDetailToEveryOne) && <div>Email: {selectedItem.userContact?.email}</div> }
                             {selectedItem?.userContact?.phoneNumber && (auth || selectedItem.showDetailToEveryOne) && <div>Phone Number: {selectedItem.userContact?.phoneNumber}</div>}
                         </>

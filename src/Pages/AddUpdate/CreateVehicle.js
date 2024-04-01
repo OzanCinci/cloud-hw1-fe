@@ -82,6 +82,7 @@ function CreateVehicle() {
             return acc;
         }, {});
 
+        vehicleData.userId = user._id;
 
         const req = {
             vehicleData: {...vehicleData},
@@ -92,7 +93,7 @@ function CreateVehicle() {
         };
 
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/vehicles', {
+        fetch('https://cloud-hw1-be.onrender.com/vehicles', {
             method: 'POST', 
             headers: {
             'Content-Type': 'application/json',

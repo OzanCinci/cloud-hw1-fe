@@ -85,7 +85,7 @@ function CreateComputer() {
             }
             return acc;
         }, {});
-
+        computerData.userId = user._id;
 
         const req = {
             computerData: {...computerData},
@@ -96,7 +96,7 @@ function CreateComputer() {
         };
 
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/computers', {
+        fetch('https://cloud-hw1-be.onrender.com/computers', {
             method: 'POST', 
             headers: {
             'Content-Type': 'application/json',

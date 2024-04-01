@@ -93,7 +93,7 @@ function CreatePrivateLesson() {
             return acc;
         }, {});
 
-
+        privateLessonData.userId = user._id;
         const req = {
             privateLessonData: {...privateLessonData},
             userData: {
@@ -104,7 +104,7 @@ function CreatePrivateLesson() {
 
         console.log("req private lessons: ",req);
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/private-lessons', {
+        fetch('https://cloud-hw1-be.onrender.com/private-lessons', {
             method: 'POST', 
             headers: {
             'Content-Type': 'application/json',

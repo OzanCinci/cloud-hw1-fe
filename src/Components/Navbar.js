@@ -49,6 +49,7 @@ const Link = styled.div`
         cursor: pointer;
 
         &::after {
+        z-index: 99;
         transform: scaleX(1);
         transform-origin: left;
         }

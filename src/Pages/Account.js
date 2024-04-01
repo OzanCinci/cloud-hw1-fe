@@ -90,7 +90,7 @@ function Account() {
         }
         
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/users/log-in', {
+        fetch('https://cloud-hw1-be.onrender.com/users/log-in', {
             method: 'POST', 
             headers: {
             'Content-Type': 'application/json',
@@ -133,14 +133,14 @@ function Account() {
         }
         
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/users/sign-up', {
+        fetch('https://cloud-hw1-be.onrender.com/users/sign-up', {
             method: 'POST', 
             headers: {
             'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 ...signUp,
-                role: "nonADMIN"
+                role: "NON-ADMIN"
             }),
         })
         .then(response =>response.json())
@@ -178,7 +178,7 @@ function Account() {
         }
         
         // This is a simple POST request with a JSON body.
-        fetch('http://localhost:3001/users/update-account', {
+        fetch('https://cloud-hw1-be.onrender.com/users/update-account', {
             method: 'PUT', 
             headers: {
             'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ function Account() {
         console.log(account.email,account.password);
         
         // This is a simple get request with a JSON body.
-        fetch('http://localhost:3001/users', {
+        fetch('https://cloud-hw1-be.onrender.com/users', {
             method: 'POST', 
             headers: {
             'Content-Type': 'application/json',
@@ -280,7 +280,7 @@ function Account() {
         console.log(account.email,account.password);
         
         // This is a simple get request with a JSON body.
-        fetch('http://localhost:3001/users/' + email, {
+        fetch('https://cloud-hw1-be.onrender.com/users/' + email, {
             method: 'DELETE', 
             headers: {
             'Content-Type': 'application/json',
